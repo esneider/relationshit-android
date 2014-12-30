@@ -1,5 +1,6 @@
 package hack.relationshit;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -23,6 +26,16 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+    }
+
+    public void start(View view) {
+        String[] actressArray = {"Alia Bhatt", "Anushka Sharma", "Deepika Padukone",
+                "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
+                "Parineeti Chopra", "Priyanka Chopra", "Shraddha Kapoor",
+                "Sonakshi Sinha"};
+
+        ListView lv = (ListView) findViewById(R.id.main_list);
+        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, actressArray));
     }
 
 
