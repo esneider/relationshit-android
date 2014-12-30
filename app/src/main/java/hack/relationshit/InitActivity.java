@@ -1,20 +1,28 @@
 package hack.relationshit;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,6 +31,7 @@ import java.util.List;
 
 import hack.relationshit.http.Message;
 import hack.relationshit.http.ServerDAO;
+import hack.relationshit.utils.ImageHelper;
 
 
 public class InitActivity extends FragmentActivity {
@@ -51,13 +60,56 @@ public class InitActivity extends FragmentActivity {
     @Override
     protected void onResumeFragments() {
         super.onResumeFragments();
+        final Activity that = this;
 
-        AutoCompleteTextView contactName = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        final ImageView erase = (ImageView) findViewById(R.id.erase);
+        final AutoCompleteTextView contactName = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
+        final ImageView imageView = (ImageView) that.findViewById(R.id.beloved_pic);
+
+
         Collection<String> contactNames = PhoneContact.getContactNames(this);
         String[] contactNamesArray = contactNames.toArray(new String[contactNames.size()]);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactNamesArray);
         contactName.setAdapter(adapter);
+
+        contactName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                InputMethodManager inputMethodManager = (InputMethodManager)  that.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(that.getCurrentFocus().getWindowToken(), 0);
+
+                String name = parent.getItemAtPosition(position).toString();
+                Bitmap image = PhoneContact.getImage(that, name);
+                imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(image,image.getHeight()/2));
+                imageView.setVisibility(View.VISIBLE);
+                erase.setVisibility(View.VISIBLE);
+            }
+        });
+
+        erase.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        erase.setImageResource(R.drawable.erase_pressed);
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        erase.setImageResource(R.drawable.erase);
+                    }
+                }
+                return false;
+            }
+        });
+
+        erase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                contactName.setText("");
+                imageView.setVisibility(View.INVISIBLE);
+                erase.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     @Override
