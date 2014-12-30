@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import hack.relationshit.http.Message;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -34,41 +36,21 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public String[] getSMS() {
+    public Message[] getMessages() {
 
         Uri uri = Uri.parse("content://sms");
         Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        List<String> sms = new ArrayList<String>();
+        List<Message> messages = new ArrayList<Message>();
 
         if (cursor.moveToFirst()) {
             for (int i = 0; i < cursor.getCount(); i++) {
-                String body = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
-                String number = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
-                String date = cursor.getString(cursor.getColumnIndexOrThrow("date")).toString();
-                Date smsDayTime = new Date(Long.valueOf(date));
-
-                String type = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
-                String typeOfSMS = null;
-                switch (Integer.parseInt(type)) {
-                    case 1:
-                        typeOfSMS = "receive";
-                        break;
-
-                    case 2:
-                        typeOfSMS = "send";
-                        break;
-
-                    case 3:
-                        typeOfSMS = "draft";
-                        break;
-                }
-
+                messages.add(new Message(this, cursor));
                 cursor.moveToNext();
-                sms.add(body);
             }
         }
+
         cursor.close();
-        return sms.toArray(new String[sms.size()]);
+        return (Message[])messages.toArray(new Message[messages.size()]);
     }
 
     public void start(View view) {
@@ -78,7 +60,7 @@ public class MainActivity extends ActionBarActivity {
                 "Sonakshi Sinha"};
 
         ListView lv = (ListView) findViewById(R.id.main_list);
-        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, getSMS()));
+        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, actressArray));
     }
 
 
