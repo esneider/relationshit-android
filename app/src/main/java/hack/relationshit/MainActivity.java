@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void start(View view) {
-        String[] actressArray = {"Alia Bhatt", "Anushka Sharma", "Deepika Padukone",
+        String[] actressArray = {PhoneContact.forNumber(this, "+61410738965"), "Anushka Sharma", "Deepika Padukone",
                 "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
                 "Parineeti Chopra", "Priyanka Chopra", "Shraddha Kapoor",
                 "Sonakshi Sinha"};
