@@ -63,9 +63,9 @@ public class InitActivity extends FragmentActivity {
         final Activity that = this;
 
         final ImageView erase = (ImageView) findViewById(R.id.erase);
+        final ImageView nextButton = (ImageView) findViewById(R.id.next_button);
         final AutoCompleteTextView contactName = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         final ImageView imageView = (ImageView) that.findViewById(R.id.beloved_pic);
-
 
         Collection<String> contactNames = PhoneContact.getContactNames(this);
         String[] contactNamesArray = contactNames.toArray(new String[contactNames.size()]);
@@ -84,6 +84,7 @@ public class InitActivity extends FragmentActivity {
                 imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(image,image.getHeight()/2));
                 imageView.setVisibility(View.VISIBLE);
                 erase.setVisibility(View.VISIBLE);
+                nextButton.setImageResource(R.drawable.next);
             }
         });
 
@@ -105,6 +106,7 @@ public class InitActivity extends FragmentActivity {
         erase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                nextButton.setImageResource(R.drawable.skip);
                 contactName.setText("");
                 imageView.setVisibility(View.INVISIBLE);
                 erase.setVisibility(View.INVISIBLE);
