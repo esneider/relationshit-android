@@ -7,9 +7,9 @@
     tools:context="hack.relationshit.InitActivity$PlaceholderFragment">
 
     <TextView android:text="@string/welcome_info"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
         android:id="@+id/textView" />
 
     <TextView
@@ -18,9 +18,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/significant_other"
         android:id="@+id/textView2"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="127dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -33,15 +33,14 @@
         android:onClick="next"/>
 
     <AutoCompleteTextView
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/contact_name"
         android:id="@+id/autoCompleteTextView"
-        android:layout_alignTop="@+id/textView2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toLeftOf="@+id/textView2"
-        android:layout_toStartOf="@+id/textView2"
-        android:selectAllOnFocus="true" />
+        android:selectAllOnFocus="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="15dp"/>
 
 </RelativeLayout>
