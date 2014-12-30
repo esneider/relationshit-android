@@ -10,12 +10,11 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="title_activity_init">InitActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="welcome">Welcome!</string>
     <string name="welcome_info">Tell Us About Yourself</string>
     <string name="significant_other">Significant Other</string>
     <string name="next">Next</string>
     <string name="contact_name">Name</string>
-
+    <string name="title_activity_loading">LoadingActivity</string>
 
 </resources>

@@ -29,6 +29,10 @@ public class PhoneContact {
         return NUMBERS_TO_NAMES.values();
     }
 
+    public static void reset() {
+        NUMBERS_TO_NAMES = null;
+    }
+
     private static void populateContactNumbers(Context context) {
         NUMBERS_TO_NAMES = new HashMap<>();
         ContentResolver cr = context.getContentResolver(); //Activity/Application android.content.Context

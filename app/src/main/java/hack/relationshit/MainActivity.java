@@ -106,4 +106,12 @@ public class MainActivity extends FragmentActivity {
             return rootView;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        final ShitApplication shit = (ShitApplication) this.getApplicationContext();
+        shit.resetState();
+
+        super.onBackPressed();
+    }
 }
