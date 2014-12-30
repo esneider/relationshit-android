@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 public class PhoneContact {
@@ -19,6 +19,14 @@ public class PhoneContact {
         }
 
         return NUMBERS_TO_NAMES.containsKey(number) ? NUMBERS_TO_NAMES.get(number) : number;
+    }
+
+    public static Collection<String> getContactNames(Context context) {
+        if(NUMBERS_TO_NAMES == null) {
+            populateContactNumbers(context);
+        }
+
+        return NUMBERS_TO_NAMES.values();
     }
 
     private static void populateContactNumbers(Context context) {

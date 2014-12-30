@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/relationshit.iml" filepath="$PROJECT_DIR$/relationshit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/relationshit-android.iml" filepath="$PROJECT_DIR$/relationshit-android.iml" />
     </modules>
   </component>
 </project>
