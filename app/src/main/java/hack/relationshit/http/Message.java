@@ -1,6 +1,5 @@
 package hack.relationshit.http;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.telephony.TelephonyManager;
 
@@ -10,16 +9,12 @@ import java.util.Date;
  * Created by dario on 12/30/14.
  */
 public class Message {
-    String userId;
     String direction;
     String phoneNumber;
     Integer messageLength;
     Long timestamp;
 
-    public Message(Context context, Cursor cursor) {
-
-        TelephonyManager manager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-        this.userId = manager.getDeviceId();
+    public Message(Cursor cursor) {
 
         String message     = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
         String timestamp   = cursor.getString(cursor.getColumnIndexOrThrow("date")).toString();
