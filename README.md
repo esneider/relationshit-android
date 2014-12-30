@@ -18,11 +18,23 @@
 
 # Database
 
-* ID
-* Number
-* Name
-* Time
-* Content
+## Messages
+
+```
+* user_id (integer)
+* direction (string: 'send'|'receive')
+* phone_number (string, because it can have plus, dash, etc)
+* timestamp (integer, unix timestamp)
+* message_length (integer)
+```
+
+## Contacts
+
+```
+* user_id
+* contact_number (string)
+* contact_name (string)
+```
 
 # Tasks
 
