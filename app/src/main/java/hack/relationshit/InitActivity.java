@@ -2,9 +2,11 @@ package hack.relationshit;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +25,7 @@ import hack.relationshit.http.Message;
 import hack.relationshit.http.ServerDAO;
 
 
-public class InitActivity extends ActionBarActivity {
+public class InitActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,14 @@ public class InitActivity extends ActionBarActivity {
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
+
+        getActionBar().setDisplayShowCustomEnabled(true);
+        getActionBar().setCustomView(R.layout.action_bar);
+        getActionBar().setDisplayShowHomeEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(false);
+//
+//        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/homework.TTF");
+//        ((TextView)getActionBar().getCustomView().findViewById(R.id.title)).setTypeface(type);
 
         ServerDAO.sendMessages(getMessages());
     }

@@ -1,8 +1,10 @@
 package hack.relationshit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,7 +27,7 @@ import hack.relationshit.http.Message;
 import hack.relationshit.http.ServerDAO;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,34 +40,34 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    public Message[] getMessages() {
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        Uri uri = Uri.parse("content://sms");
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        List<Message> messages = new ArrayList<Message>();
-
-        if (cursor.moveToFirst()) {
-            for (int i = 0; i < cursor.getCount(); i++) {
-                messages.add(new Message(this, cursor));
-                cursor.moveToNext();
-            }
-        }
-
-        cursor.close();
-        return (Message[])messages.toArray(new Message[messages.size()]);
-    }
-
-    public void start(View view) {
         String[] actressArray = {PhoneContact.forNumber(this, "+61410738965"), "Anushka Sharma", "Deepika Padukone",
                 "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
                 "Parineeti Chopra", "Priyanka Chopra", "Shraddha Kapoor",
                 "Sonakshi Sinha"};
 
-        ListView lv = (ListView) findViewById(R.id.main_list);
-        ServerDAO.sendMessages(getMessages());
-        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, actressArray));
+        String[] selectionList = {"Top Friends", "Worst Friends", "Most Annoying"};
+
+        setListView(actressArray);
+
+        setupDropdown(selectionList);
     }
 
+    private void setListView(String[] listItems) {
+        ListView lv = (ListView) findViewById(R.id.main_list);
+        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, listItems));
+    }
+
+    private void setupDropdown(String[] selectionList) {
+        Spinner spinner = (Spinner) findViewById(R.id.list_selection);
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,
+                R.layout.spinner_item, selectionList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
