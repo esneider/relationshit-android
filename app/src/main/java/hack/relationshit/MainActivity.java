@@ -1,6 +1,8 @@
 package hack.relationshit;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,10 @@ import android.view.ViewGroup;
 import android.os.Build;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,6 +34,43 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public String[] getSMS() {
+
+        Uri uri = Uri.parse("content://sms");
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        List<String> sms = new ArrayList<String>();
+
+        if (cursor.moveToFirst()) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                String body = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
+                String number = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
+                String date = cursor.getString(cursor.getColumnIndexOrThrow("date")).toString();
+                Date smsDayTime = new Date(Long.valueOf(date));
+
+                String type = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
+                String typeOfSMS = null;
+                switch (Integer.parseInt(type)) {
+                    case 1:
+                        typeOfSMS = "receive";
+                        break;
+
+                    case 2:
+                        typeOfSMS = "send";
+                        break;
+
+                    case 3:
+                        typeOfSMS = "draft";
+                        break;
+                }
+
+                cursor.moveToNext();
+                sms.add(body);
+            }
+        }
+        cursor.close();
+        return sms.toArray(new String[sms.size()]);
+    }
+
     public void start(View view) {
         String[] actressArray = {"Alia Bhatt", "Anushka Sharma", "Deepika Padukone",
                 "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
@@ -35,7 +78,7 @@ public class MainActivity extends ActionBarActivity {
                 "Sonakshi Sinha"};
 
         ListView lv = (ListView) findViewById(R.id.main_list);
-        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, actressArray));
+        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, getSMS()));
     }
 
 
