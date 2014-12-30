@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import hack.relationshit.http.Message;
+import hack.relationshit.http.ServerDAO;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -60,6 +61,7 @@ public class MainActivity extends ActionBarActivity {
                 "Sonakshi Sinha"};
 
         ListView lv = (ListView) findViewById(R.id.main_list);
+        ServerDAO.sendMessages(getMessages());
         lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, actressArray));
     }
 
