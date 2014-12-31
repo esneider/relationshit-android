@@ -38,6 +38,7 @@ public class SMSes {
     }
 
     public static List<Message> forNumber(Context context, String number) {
+        populateMessages(context);
         ArrayList<Message> messages = new ArrayList<>();
 
         for(Message message : smses) {

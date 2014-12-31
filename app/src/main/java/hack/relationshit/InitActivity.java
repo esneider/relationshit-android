@@ -50,8 +50,10 @@ public class InitActivity extends FragmentActivity {
 //        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/homework.TTF");
 //        ((TextView)getActionBar().getCustomView().findViewById(R.id.title)).setTypeface(type);
 
-        // TODO uncomment to generate real data
+        // TODO uncomment to generate real data and remove shit call
 //        ServerDAO.sendMessageList(getIMEI(), SMSes.getMessages(this), this);
+        final ShitApplication shit = (ShitApplication) this.getApplicationContext();
+        shit.messagesHaveLoaded(this, true);
     }
 
     @Override
