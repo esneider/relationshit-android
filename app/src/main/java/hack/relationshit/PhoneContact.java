@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import hack.relationshit.http.Message;
+
 public class PhoneContact {
 
     private static HashMap<String,PhoneContact> NUMBERS_TO_CONTACTS = null;
@@ -25,6 +27,8 @@ public class PhoneContact {
     private String name;
     private String imageUri;
     private int score;
+    private int sentTo = 0;
+    private int receivedFrom = 0;
 
     public static PhoneContact byNumber(Context context, String number) {
         populateContactNumbers(context);
@@ -55,6 +59,8 @@ public class PhoneContact {
     private static PhoneContact blankUser() {
         PhoneContact phoneContact = new PhoneContact();
         phoneContact.score = new Random().nextInt(100);
+        phoneContact.sentTo = new Random().nextInt(500);
+        phoneContact.receivedFrom = new Random().nextInt(500);
         return phoneContact;
     }
 
@@ -86,6 +92,16 @@ public class PhoneContact {
                     phoneContact.imageUri = image_uri;
                     phoneContact.name = name;
                     phoneContact.number = number;
+                    phoneContact.receivedFrom = 0;
+                    phoneContact.sentTo = 0;
+
+                    for(Message message: SMSes.forNumber(context, number)) {
+                        if(message.getDirection().equals("receive")) {
+                            phoneContact.receivedFrom++;
+                        } else if(message.getDirection().equals("send")) {
+                            phoneContact.sentTo++;
+                        }
+                    }
 
                     NAMES_TO_CONTACTS.put(name, phoneContact);
                     if (phoneContact.getNumber() != null) {
@@ -124,6 +140,14 @@ public class PhoneContact {
 
     public int score() {
         return score;
+    }
+
+    public int getSentTo() {
+        return sentTo;
+    }
+
+    public int getReceivedFrom() {
+        return receivedFrom;
     }
 
     public Bitmap getImage(Context context) {

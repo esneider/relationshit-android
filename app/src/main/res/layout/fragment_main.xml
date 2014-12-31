@@ -24,4 +24,46 @@
 
         </ListView>
 
+    <RelativeLayout
+        android:id="@+id/love_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/list_selection"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="300dp"
+            android:src="@drawable/hearts"
+            android:layout_marginTop="-50dp"
+            android:alpha="0.5"
+            />
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="15dp"
+            android:id="@+id/loved_pic"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="#000000"
+            android:id="@+id/cling_desc"
+            android:layout_marginTop="220dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="58sp"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
+            android:layout_marginTop="310dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/clingy"/>
+
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -38,4 +38,19 @@ public class Message {
         }
     }
 
+    public String getDirection() {
+        return direction;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public Integer getMessageLength() {
+        return messageLength;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
 }

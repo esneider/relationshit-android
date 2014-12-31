@@ -3,6 +3,7 @@ package hack.relationshit;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,9 +17,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,10 +29,13 @@ import java.util.List;
 import java.util.Random;
 import hack.relationshit.utils.ImageHelper;
 
+import static java.util.Arrays.asList;
+
 
 public class MainActivity extends FragmentActivity {
 
     private List<PhoneContact> contacts;
+    private static final String LOVE_OPTION = "Is It True Love?";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +66,14 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
-        String[] selectionList = {"Top Friends", "Worst Friends", "Most Annoying"};
+        List<String> selectionList = new ArrayList(asList("Top Friends", "Worst Friends", "Most Annoying"));
+        if(((ShitApplication) getApplication()).getBelovedContactName() != null) {
+            selectionList.add(LOVE_OPTION);
+        }
 
         setListView(contacts);
 
-        setupDropdown(selectionList);
+        setupDropdown(selectionList.toArray(new String[selectionList.size()]));
     }
 
     private void setListView(final List<PhoneContact> contacts) {
@@ -76,7 +85,6 @@ public class MainActivity extends FragmentActivity {
         final Context that = this;
         ListView lv = (ListView) findViewById(R.id.main_list);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, listItems) {
-
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -112,6 +120,42 @@ public class MainActivity extends FragmentActivity {
         });
     }
 
+    private void setLoveView() {
+        ListView listView = (ListView) findViewById(R.id.main_list);
+        RelativeLayout loveView = (RelativeLayout) findViewById(R.id.love_view);
+        listView.setVisibility(View.INVISIBLE);
+        loveView.setVisibility(View.VISIBLE);
+
+        String belovedContactName = ((ShitApplication) getApplication()).getBelovedContactName();
+        PhoneContact beloved = PhoneContact.byName(this, belovedContactName);
+        ((ImageView)findViewById(R.id.loved_pic)).setImageBitmap(ImageHelper.getRoundedCornerBitmap(beloved.getImage(this), beloved.getImage(this).getHeight() / 2));
+        String desc = "";
+
+        double sentPercent = ((beloved.getSentTo() + 200) * 100 ) / (beloved.getSentTo() + beloved.getReceivedFrom());
+        desc = "Your have sent "+ new DecimalFormat("#.#").format(sentPercent) +"% of all texts to your beloved which means ";
+
+        if(sentPercent < 40) {
+            ((TextView) findViewById(R.id.clingy)).setText("THEY ARE CLINGY");
+        } else if (sentPercent < 60) {
+            ((TextView) findViewById(R.id.clingy)).setText("HEALTHY RELATIONSHIP");
+        } else {
+            ((TextView) findViewById(R.id.clingy)).setText("YOU ARE CLINGY");
+        }
+
+        ((TextView) findViewById(R.id.cling_desc)).setText(desc);
+
+
+        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/homework.TTF");
+        ((TextView)findViewById(R.id.clingy)).setTypeface(type);
+    }
+
+    private void hideLoveView() {
+        ListView listView = (ListView) findViewById(R.id.main_list);
+        RelativeLayout loveView = (RelativeLayout) findViewById(R.id.love_view);
+        listView.setVisibility(View.VISIBLE);
+        loveView.setVisibility(View.INVISIBLE);
+    }
+
     private void setupDropdown(String[] selectionList) {
         Spinner spinner = (Spinner) findViewById(R.id.list_selection);
         ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this,
@@ -121,7 +165,12 @@ public class MainActivity extends FragmentActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setListView(contacts);
+                if (((TextView)view.findViewById(R.id.dropdown_selection)).getText().equals(LOVE_OPTION)) {
+                    setLoveView();
+                } else {
+                    hideLoveView();
+                    setListView(contacts);
+                }
             }
 
             @Override
