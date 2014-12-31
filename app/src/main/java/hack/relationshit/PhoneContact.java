@@ -103,9 +103,13 @@ public class PhoneContact {
                         }
                     }
 
-                    NAMES_TO_CONTACTS.put(name, phoneContact);
-                    if (phoneContact.getNumber() != null) {
-                        NUMBERS_TO_CONTACTS.put(phoneContact.getNumber(), phoneContact);
+                    phoneContact.score = phoneContact.receivedFrom + phoneContact.sentTo;
+
+                    if(phoneContact.score > 0) {
+                        NAMES_TO_CONTACTS.put(name, phoneContact);
+                        if (phoneContact.getNumber() != null) {
+                            NUMBERS_TO_CONTACTS.put(phoneContact.getNumber(), phoneContact);
+                        }
                     }
 
                 } while (cursor.moveToNext());

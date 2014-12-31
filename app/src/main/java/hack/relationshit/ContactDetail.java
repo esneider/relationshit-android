@@ -1,5 +1,6 @@
 package hack.relationshit;
 
+import android.app.ActionBar;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import hack.relationshit.utils.ImageHelper;
@@ -42,8 +44,23 @@ public class ContactDetail extends FragmentActivity {
             String contactName = extras.getString("contactName");
             ((TextView) findViewById(R.id.contact_name)).setText(contactName.split(" ")[0]);
 
-            Bitmap image = PhoneContact.byName(this, contactName).getImage(this);
+            PhoneContact contact = PhoneContact.byName(this, contactName);
+            Bitmap image = contact.getImage(this);
             ((ImageView) findViewById(R.id.detail_pic)).setImageBitmap(ImageHelper.getRoundedCornerBitmap(image, image.getHeight() / 2));
+
+            ((TextView)findViewById(R.id.messages_num_me)).setText(Integer.toString(contact.getSentTo()));
+            ((TextView)findViewById(R.id.messages_num_you)).setText(Integer.toString(contact.getReceivedFrom()));
+
+            int total = contact.getSentTo() + contact.getReceivedFrom();
+
+            if(total != 0) {
+                double sentPercentage = (contact.getSentTo() * 100) / total;
+                double receivedPercentage = (contact.getReceivedFrom() * 100) / total;
+
+                ViewGroup.LayoutParams layoutParams = findViewById(R.id.messages_me).getLayoutParams();
+                layoutParams.width = new Double(sentPercentage).intValue();
+                findViewById(R.id.messages_me).setLayoutParams(layoutParams);
+            }
         }
     }
 

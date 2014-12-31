@@ -12,39 +12,47 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="hack.relationshit.ContactDetail$PlaceholderFragment">
 
-        <TextView
-            android:id="@+id/you"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@+id/vs"
-            android:text="@string/you"
-            android:textColor="#0071BC"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/vs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:layout_centerHorizontal="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/vs"
-            android:textColor="#000000"
-            android:textSize="30sp" />
+            android:id="@+id/header_text">
 
-        <TextView
-            android:id="@+id/contact_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/vs"
-            android:textColor="#C1272D"
-            android:textSize="30sp" />
+            <TextView
+                android:id="@+id/you"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/vs"
+                android:text="@string/you"
+                android:textColor="#0071BC"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/vs"
+                android:textColor="#000000"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/contact_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/vs"
+                android:textColor="#C1272D"
+                android:textSize="30sp" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/detail_pic"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:layout_below="@+id/vs"
+            android:layout_below="@+id/header_text"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp" />
