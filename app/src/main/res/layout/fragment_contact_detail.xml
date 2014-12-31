@@ -163,7 +163,7 @@
 
             <View
                 android:id="@+id/length_me"
-                android:layout_width="40dp"
+                android:layout_width="120dp"
                 android:layout_height="15dp"
                 android:layout_alignTop="@id/length_line"
                 android:layout_marginTop="15dp"
@@ -177,7 +177,7 @@
                 android:layout_alignBottom="@+id/length_me"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@+id/length_me"
-                android:text="asdf" />
+                android:text="107" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -190,7 +190,7 @@
 
             <View
                 android:id="@+id/length_you"
-                android:layout_width="40dp"
+                android:layout_width="30dp"
                 android:layout_height="15dp"
                 android:layout_alignBottom="@id/length_line"
                 android:layout_marginBottom="15dp"
@@ -204,7 +204,7 @@
                 android:layout_alignBottom="@+id/length_you"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@+id/length_you"
-                android:text="asdf" />
+                android:text="25" />
 
             <TextView
                 android:layout_width="wrap_content"

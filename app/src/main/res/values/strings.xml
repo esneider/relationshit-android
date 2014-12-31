@@ -17,6 +17,6 @@
     <string name="message_length">Average message length</string>
     <string name="activity">Past activity</string>
     <string name="messages">messages</string>
-    <string name="length">length</string>
+    <string name="length">characters</string>
 
 </resources>
