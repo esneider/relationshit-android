@@ -231,14 +231,14 @@
                 android:textSize="25sp" />
 
             <ImageView
-                android:layout_width="160dp"
-                android:layout_height="160dp"
+                android:layout_width="265dp"
+                android:layout_height="265dp"
                 android:layout_below="@id/activity"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:layout_centerHorizontal="true"
-                android:background="#8c000000"
-                android:id="@+id/activity_chart"/>
+                android:id="@+id/activity_chart"
+                android:src="@drawable/graphs"/>
 
         </RelativeLayout>
 
