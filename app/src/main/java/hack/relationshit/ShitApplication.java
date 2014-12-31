@@ -19,6 +19,8 @@ public class ShitApplication extends Application {
 
     private boolean overallLoadSuccess = true;
 
+    private String belovedContactName;
+
     public void messagesHaveLoaded(Activity callerActivity, boolean isSuccess) {
         Log.d(classString, "messages have loaded");
         messagesLoaded = true;
@@ -106,7 +108,17 @@ public class ShitApplication extends Application {
 
         overallLoadSuccess = true;
 
+        belovedContactName = null;
+
         PhoneContact.reset();
+    }
+
+    public void setBelovedContactName(String belovedContactName) {
+        this.belovedContactName = belovedContactName;
+    }
+
+    public String getBelovedContactName() {
+        return this.belovedContactName;
     }
 
 }

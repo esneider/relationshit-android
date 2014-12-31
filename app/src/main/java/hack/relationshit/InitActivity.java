@@ -86,6 +86,10 @@ public class InitActivity extends FragmentActivity {
                 imageView.setVisibility(View.VISIBLE);
                 erase.setVisibility(View.VISIBLE);
                 nextButton.setImageResource(R.drawable.next);
+
+                // set beloved name
+                final ShitApplication shit = (ShitApplication) that.getApplicationContext();
+                shit.setBelovedContactName(name);
             }
         });
 
@@ -95,6 +99,10 @@ public class InitActivity extends FragmentActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN: {
                         erase.setImageResource(R.drawable.erase_pressed);
+
+                        // clear beloved name
+                        final ShitApplication shit = (ShitApplication) that.getApplicationContext();
+                        shit.setBelovedContactName(null);
                     }
                     case MotionEvent.ACTION_UP: {
                         erase.setImageResource(R.drawable.erase);
@@ -138,12 +146,9 @@ public class InitActivity extends FragmentActivity {
     }
 
     public void next(View view) {
-        // TODO send personal info to server
-
-        // on callback set flag
-
         final ShitApplication shit = (ShitApplication) this.getApplicationContext();
-        shit.infoHasLoaded(this, false);
+
+        shit.infoHasLoaded(this, true);
     }
 
     /**

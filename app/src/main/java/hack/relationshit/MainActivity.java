@@ -96,7 +96,7 @@ public class MainActivity extends FragmentActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MainActivity.this, ContactDetail.class);
                 startActivity(i);
-                finish();
+//                finish();
             }
 
         });
