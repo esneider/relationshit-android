@@ -1,11 +1,12 @@
 package hack.relationshit;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,12 +14,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import java.util.Random;
+import hack.relationshit.utils.ImageHelper;
 
 
 public class MainActivity extends FragmentActivity {
+
+    private String[] actressArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,7 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        String[] actressArray = {PhoneContact.forNumber(this, "+61410738965"), "Anushka Sharma", "Deepika Padukone",
+        actressArray = new String[]{PhoneContact.forNumber(this, "+61410738965"), "Anushka Sharma", "Deepika Padukone",
                 "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
                 "Parineeti Chopra", "Priyanka Chopra", "Shraddha Kapoor",
                 "Sonakshi Sinha"};
@@ -52,9 +61,45 @@ public class MainActivity extends FragmentActivity {
         setupDropdown(selectionList);
     }
 
-    private void setListView(String[] listItems) {
+    private void setListView(final String[] listItems) {
+        final Context that = this;
         ListView lv = (ListView) findViewById(R.id.main_list);
-        lv.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, listItems));
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, listItems) {
+
+
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+
+                Bitmap image = PhoneContact.getImage(that, listItems[position]);
+                ((ImageView) view.findViewById(R.id.profile_pic)).setImageBitmap(ImageHelper.getRoundedCornerBitmap(image, image.getHeight() / 2));
+
+                int progress = new Random().nextInt(100);
+
+                ((TextView) view.findViewById(R.id.item_percent)).setText(Integer.toString(progress));
+                ((ProgressBar) view.findViewById(R.id.progress_bar)).setMax(100);
+                ((ProgressBar) view.findViewById(R.id.progress_bar)).setProgress(progress);
+                if(progress < 50) {
+                    ((ProgressBar) view.findViewById(R.id.progress_bar)).setProgressDrawable(that.getResources().getDrawable(R.drawable.progressbar_low));
+                } else {
+                    ((ProgressBar) view.findViewById(R.id.progress_bar)).setProgressDrawable(that.getResources().getDrawable(R.drawable.progressbar_high));
+                }
+
+                return view;
+            }
+        };
+        lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(MainActivity.this, InitActivity.class);
+                startActivity(i);
+                finish();
+            }
+
+        });
     }
 
     private void setupDropdown(String[] selectionList) {
@@ -63,6 +108,17 @@ public class MainActivity extends FragmentActivity {
                 R.layout.spinner_item, selectionList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setListView(actressArray);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override

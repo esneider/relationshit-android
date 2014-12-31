@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -53,7 +54,7 @@ public class PhoneContact {
                 Log.e("Exception", e.getMessage());
             }
         }
-        return null;
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.unknown);
     }
 
     private static void populateContactNumbers(Context context) {

@@ -1,14 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/profile_pic"/>
 
     <TextView
         android:id="@+id/item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:paddingTop="20dp"
         android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:layout_alignTop="@id/profile_pic"
+        android:layout_toRightOf="@id/profile_pic"
+        android:textColor="#000000"
         android:textSize="16dp"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/item_percent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:textColor="#000000"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_marginRight="20dp"/>
+
+    <ProgressBar
+        android:layout_width="fill_parent"
+        android:layout_height="12dp"
+
+        android:indeterminateOnly="false"
+
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/profile_pic"
+        android:layout_below="@id/item_name"
+        android:id="@+id/progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_marginRight="20dp"
+        android:progressDrawable="@drawable/progressbar_high"
+        />
+
+</RelativeLayout>
