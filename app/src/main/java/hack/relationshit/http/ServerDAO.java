@@ -72,4 +72,22 @@ public class ServerDAO {
             }
         });
     }
+
+    public static void getContactsData(String IMEI, final Activity activity) {
+
+        final ShitApplication shit = (ShitApplication) activity.getApplicationContext();
+
+        RestClient.get("contactsData?IMEI=" + IMEI, null, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray array) {
+                Log.e("get SUCC", array.toString());
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable error) {
+                Log.e("get FAIL", responseString);
+            }
+        });
+    }
 }
