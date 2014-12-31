@@ -12,7 +12,7 @@ import android.view.MenuItem;
 
 public class SplashScreenActivity extends FragmentActivity {
 
-    private static int SPLASH_SCREEN_TIMEOUT = 100;
+    private static int SPLASH_SCREEN_TIMEOUT = 600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
