@@ -94,7 +94,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(MainActivity.this, InitActivity.class);
+                Intent i = new Intent(MainActivity.this, ContactDetail.class);
                 startActivity(i);
                 finish();
             }
