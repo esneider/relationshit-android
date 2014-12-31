@@ -58,8 +58,12 @@ public class ContactDetail extends FragmentActivity {
                 double receivedPercentage = (contact.getReceivedFrom() * 100) / total;
 
                 ViewGroup.LayoutParams layoutParams = findViewById(R.id.messages_me).getLayoutParams();
-                layoutParams.width = new Double(sentPercentage).intValue();
+                layoutParams.width = new Double(sentPercentage).intValue() * 6;
                 findViewById(R.id.messages_me).setLayoutParams(layoutParams);
+
+                layoutParams = findViewById(R.id.messages_you).getLayoutParams();
+                layoutParams.width = new Double(receivedPercentage).intValue() * 6;
+                findViewById(R.id.messages_you).setLayoutParams(layoutParams);
             }
         }
     }
