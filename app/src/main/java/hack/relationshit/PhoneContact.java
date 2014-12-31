@@ -10,8 +10,10 @@ import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 public class PhoneContact {
@@ -56,10 +58,10 @@ public class PhoneContact {
         return phoneContact;
     }
 
-    public static Collection<PhoneContact> allContacts(Context context) {
+    public static List<PhoneContact> allContacts(Context context) {
         populateContactNumbers(context);
 
-        return NUMBERS_TO_CONTACTS.values();
+        return new ArrayList<>(NUMBERS_TO_CONTACTS.values());
     }
 
     public static void reset() {
@@ -103,8 +105,9 @@ public class PhoneContact {
             Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",new String[]{ id }, null);
             while (pCur.moveToNext())
             {
+                String number = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 pCur.close();
-                return pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                return number;
             }
         }
 

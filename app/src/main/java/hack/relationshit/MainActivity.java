@@ -18,13 +18,18 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 import hack.relationshit.utils.ImageHelper;
 
 
 public class MainActivity extends FragmentActivity {
 
-    private String[] actressArray;
+    private List<PhoneContact> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +51,28 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        actressArray = new String[]{PhoneContact.byNumber(this, "+61410738965").getName(), "Anushka Sharma", "Deepika Padukone",
-                "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
-                "Parineeti Chopra", "Priyanka Chopra", "Shraddha Kapoor",
-                "Sonakshi Sinha"};
+        contacts = PhoneContact.allContacts(this);
+
+        Collections.sort(contacts, new Comparator<PhoneContact>() {
+            @Override
+            public int compare(PhoneContact lhs, PhoneContact rhs) {
+                return rhs.score() - lhs.score();
+            }
+        });
 
         String[] selectionList = {"Top Friends", "Worst Friends", "Most Annoying"};
 
-        setListView(actressArray);
+        setListView(contacts);
 
         setupDropdown(selectionList);
     }
 
-    private void setListView(final String[] listItems) {
+    private void setListView(final List<PhoneContact> contacts) {
+        final String[] listItems = new String[contacts.size()];
+        for(int i = 0; i < contacts.size(); i++) {
+            listItems[i] = contacts.get(i).getName();
+        }
+
         final Context that = this;
         ListView lv = (ListView) findViewById(R.id.main_list);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.item_name, listItems) {
@@ -71,8 +85,7 @@ public class MainActivity extends FragmentActivity {
                 Bitmap image = PhoneContact.byName(that, listItems[position]).getImage(that);
                 ((ImageView) view.findViewById(R.id.profile_pic)).setImageBitmap(ImageHelper.getRoundedCornerBitmap(image, image.getHeight() / 2));
 
-                int progress = new Random().nextInt(100);
-
+                int progress = contacts.get(position).score();
                 ((TextView) view.findViewById(R.id.item_percent)).setText(Integer.toString(progress));
                 ((ProgressBar) view.findViewById(R.id.progress_bar)).setMax(100);
                 ((ProgressBar) view.findViewById(R.id.progress_bar)).setProgress(progress);
@@ -108,7 +121,7 @@ public class MainActivity extends FragmentActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setListView(actressArray);
+                setListView(contacts);
             }
 
             @Override
