@@ -12,80 +12,127 @@ import android.util.Log;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Random;
 
 public class PhoneContact {
 
-    private static HashMap<String,String> NUMBERS_TO_NAMES = null;
-    private static HashMap<String,String> NAMES_TO_PICS = null;
+    private static HashMap<String,PhoneContact> NUMBERS_TO_CONTACTS = null;
+    private static HashMap<String,PhoneContact> NAMES_TO_CONTACTS = null;
 
-    public static String forNumber(Context context, String number) {
+    private String number;
+    private String name;
+    private String imageUri;
+    private int score;
 
-        if(NUMBERS_TO_NAMES == null) {
-            populateContactNumbers(context);
+    public static PhoneContact byNumber(Context context, String number) {
+        populateContactNumbers(context);
+
+        if (NUMBERS_TO_CONTACTS.get(number) != null) {
+            return NUMBERS_TO_CONTACTS.get(number);
+        } else {
+            PhoneContact phoneContact = blankUser();
+            phoneContact.number = number;
+            phoneContact.name = number;
+            return phoneContact;
         }
-
-        return NUMBERS_TO_NAMES.containsKey(number) ? NUMBERS_TO_NAMES.get(number) : number;
     }
 
-    public static Collection<String> getContactNames(Context context) {
-        if(NUMBERS_TO_NAMES == null) {
-            populateContactNumbers(context);
-        }
+    public static PhoneContact byName(Context context, String name) {
+        populateContactNumbers(context);
 
-        return NUMBERS_TO_NAMES.values();
+        if (NAMES_TO_CONTACTS.get(name) != null) {
+            return NAMES_TO_CONTACTS.get(name);
+        } else {
+            PhoneContact phoneContact = blankUser();
+            phoneContact.number = name;
+            phoneContact.name = name;
+            return phoneContact;
+        }
+    }
+
+    private static PhoneContact blankUser() {
+        PhoneContact phoneContact = new PhoneContact();
+        phoneContact.score = new Random().nextInt(100);
+        return phoneContact;
+    }
+
+    public static Collection<PhoneContact> allContacts(Context context) {
+        populateContactNumbers(context);
+
+        return NUMBERS_TO_CONTACTS.values();
     }
 
     public static void reset() {
-        NUMBERS_TO_NAMES = null;
-        NAMES_TO_PICS = null;
+        NUMBERS_TO_CONTACTS = null;
+        NAMES_TO_CONTACTS = null;
     }
 
-    public static Bitmap getImage(Context context, String name) {
-        if(NUMBERS_TO_NAMES == null) {
-            populateContactNumbers(context);
+    private static void populateContactNumbers(Context context) {
+        if(NUMBERS_TO_CONTACTS == null) {
+            NUMBERS_TO_CONTACTS = new HashMap<>();
+            NAMES_TO_CONTACTS = new HashMap<>();
+            ContentResolver cr = context.getContentResolver(); //Activity/Application android.content.Context
+            Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    String image_uri = cursor.getString(cursor
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
+                    String number = getContactNumber(cr, cursor);
+
+                    PhoneContact phoneContact = blankUser();
+                    phoneContact.imageUri = image_uri;
+                    phoneContact.name = name;
+                    phoneContact.number = number;
+
+                    NAMES_TO_CONTACTS.put(name, phoneContact);
+                    if (phoneContact.getNumber() != null) {
+                        NUMBERS_TO_CONTACTS.put(phoneContact.getNumber(), phoneContact);
+                    }
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+    }
+
+    private static String getContactNumber(ContentResolver cr, Cursor cursor) {
+        if(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0)
+        {
+            String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+            Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",new String[]{ id }, null);
+            while (pCur.moveToNext())
+            {
+                pCur.close();
+                return pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            }
         }
 
-        if(NAMES_TO_PICS.get(name) != null) {
+        return null;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int score() {
+        return score;
+    }
+
+    public Bitmap getImage(Context context) {
+        if(imageUri != null) {
             try {
                 return MediaStore.Images.Media
                         .getBitmap(context.getContentResolver(),
-                                Uri.parse(NAMES_TO_PICS.get(name)));
+                                Uri.parse(imageUri));
             } catch (Exception e) {
                 Log.e("Exception", e.getMessage());
             }
         }
         return BitmapFactory.decodeResource(context.getResources(), R.drawable.unknown);
-    }
-
-    private static void populateContactNumbers(Context context) {
-        NUMBERS_TO_NAMES = new HashMap<>();
-        NAMES_TO_PICS = new HashMap<>();
-        ContentResolver cr = context.getContentResolver(); //Activity/Application android.content.Context
-        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
-        if(cursor.moveToFirst())
-        {
-            do
-            {
-                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
-                String image_uri = cursor.getString(cursor
-                        .getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI));
-                NAMES_TO_PICS.put(name, image_uri);
-
-                if(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0)
-                {
-                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,null,ContactsContract.CommonDataKinds.Phone.CONTACT_ID +" = ?",new String[]{ id }, null);
-                    while (pCur.moveToNext())
-                    {
-                        String contactNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        NUMBERS_TO_NAMES.put(contactNumber, name);
-                        break;
-                    }
-                    pCur.close();
-                }
-
-            } while (cursor.moveToNext()) ;
-        }
-        cursor.close();
     }
 }

@@ -1,11 +1,8 @@
 package hack.relationshit;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -49,7 +46,7 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 
-        actressArray = new String[]{PhoneContact.forNumber(this, "+61410738965"), "Anushka Sharma", "Deepika Padukone",
+        actressArray = new String[]{PhoneContact.byNumber(this, "+61410738965").getName(), "Anushka Sharma", "Deepika Padukone",
                 "Jacqueline Fernandez", "Kareena Kapoor", "Katrina Kaif",
                 "Parineeti Chopra", "Priyanka Chopra", "Shraddha Kapoor",
                 "Sonakshi Sinha"};
@@ -71,7 +68,7 @@ public class MainActivity extends FragmentActivity {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
 
-                Bitmap image = PhoneContact.getImage(that, listItems[position]);
+                Bitmap image = PhoneContact.byName(that, listItems[position]).getImage(that);
                 ((ImageView) view.findViewById(R.id.profile_pic)).setImageBitmap(ImageHelper.getRoundedCornerBitmap(image, image.getHeight() / 2));
 
                 int progress = new Random().nextInt(100);

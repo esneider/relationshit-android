@@ -2,16 +2,12 @@ package hack.relationshit;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -24,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,8 +63,14 @@ public class InitActivity extends FragmentActivity {
         final AutoCompleteTextView contactName = (AutoCompleteTextView) findViewById(R.id.autoCompleteTextView);
         final ImageView imageView = (ImageView) that.findViewById(R.id.beloved_pic);
 
-        Collection<String> contactNames = PhoneContact.getContactNames(this);
-        String[] contactNamesArray = contactNames.toArray(new String[contactNames.size()]);
+        Collection<PhoneContact> contacts = PhoneContact.allContacts(this);
+
+        ArrayList<String> names = new ArrayList<>();
+
+        for(PhoneContact contact : contacts)
+            names.add(contact.getName());
+
+        String[] contactNamesArray = names.toArray(new String[names.size()]);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contactNamesArray);
         contactName.setAdapter(adapter);
@@ -81,7 +82,7 @@ public class InitActivity extends FragmentActivity {
                 inputMethodManager.hideSoftInputFromWindow(that.getCurrentFocus().getWindowToken(), 0);
 
                 String name = parent.getItemAtPosition(position).toString();
-                Bitmap image = PhoneContact.getImage(that, name);
+                Bitmap image = PhoneContact.byName(that, name).getImage(that);
                 imageView.setImageBitmap(ImageHelper.getRoundedCornerBitmap(image,image.getHeight()/2));
                 imageView.setVisibility(View.VISIBLE);
                 erase.setVisibility(View.VISIBLE);
