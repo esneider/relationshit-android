@@ -1,12 +1,239 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="hack.relationshit.ContactDetail$PlaceholderFragment">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="hack.relationshit.ContactDetail$PlaceholderFragment">
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/you"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/vs"
+            android:text="@string/you"
+            android:textColor="#0071BC"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/vs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/vs"
+            android:textColor="#000000"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/contact_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/vs"
+            android:textColor="#C1272D"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/detail_pic"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_below="@+id/vs"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp" />
+
+        <RelativeLayout
+            android:id="@+id/total_messages_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/detail_pic">
+
+            <TextView
+                android:id="@+id/total_messages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_messages"
+                android:textColor="#000000"
+                android:textSize="25sp" />
+
+            <View
+                android:id="@+id/total_line"
+                android:layout_width="1dip"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/total_messages"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:background="#8c000000" />
+
+            <View
+                android:id="@+id/messages_me"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:layout_alignTop="@id/total_line"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/total_line"
+                android:background="#0071BC" />
+
+            <TextView
+                android:id="@+id/messages_num_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/messages_me"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/messages_me"
+                android:text="asdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/messages_num_me"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/messages_num_me"
+                android:text="@string/messages"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/messages_you"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:layout_alignBottom="@id/total_line"
+                android:layout_marginBottom="15dp"
+                android:layout_toRightOf="@+id/total_line"
+                android:background="#C1272D" />
+
+            <TextView
+                android:id="@+id/messages_num_you"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/messages_you"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/messages_you"
+                android:text="asdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/messages_num_you"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/messages_num_you"
+                android:text="@string/messages"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/message_length_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/total_messages_layout"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/message_length"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/message_length"
+                android:textColor="#000000"
+                android:textSize="25sp" />
+
+            <View
+                android:id="@+id/length_line"
+                android:layout_width="1dip"
+                android:layout_height="fill_parent"
+                android:layout_below="@id/message_length"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:background="#8c000000" />
+
+            <View
+                android:id="@+id/length_me"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:layout_alignTop="@id/length_line"
+                android:layout_marginTop="15dp"
+                android:layout_toRightOf="@+id/length_line"
+                android:background="#0071BC" />
+
+            <TextView
+                android:id="@+id/length_num_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/length_me"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/length_me"
+                android:text="asdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/length_num_me"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/length_num_me"
+                android:text="@string/length"
+                android:textSize="15sp" />
+
+            <View
+                android:id="@+id/length_you"
+                android:layout_width="40dp"
+                android:layout_height="15dp"
+                android:layout_alignBottom="@id/length_line"
+                android:layout_marginBottom="15dp"
+                android:layout_toRightOf="@+id/length_line"
+                android:background="#C1272D" />
+
+            <TextView
+                android:id="@+id/length_num_you"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/length_you"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/length_you"
+                android:text="asdf" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/length_num_you"
+                android:layout_marginLeft="7dp"
+                android:layout_toRightOf="@+id/length_num_you"
+                android:text="@string/length"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/message_length_layout"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/activity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity"
+                android:textColor="#000000"
+                android:textSize="25sp" />
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_below="@id/activity"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_centerHorizontal="true"
+                android:background="#8c000000"
+                android:id="@+id/activity_chart"/>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</ScrollView>

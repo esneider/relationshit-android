@@ -1,16 +1,18 @@
 package hack.relationshit;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import hack.relationshit.utils.ImageHelper;
 
 
 public class ContactDetail extends FragmentActivity {
@@ -31,6 +33,19 @@ public class ContactDetail extends FragmentActivity {
         getActionBar().setDisplayShowTitleEnabled(false);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String contactName = extras.getString("contactName");
+            ((TextView) findViewById(R.id.contact_name)).setText(contactName.split(" ")[0]);
+
+            Bitmap image = PhoneContact.byName(this, contactName).getImage(this);
+            ((ImageView) findViewById(R.id.detail_pic)).setImageBitmap(ImageHelper.getRoundedCornerBitmap(image, image.getHeight() / 2));
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

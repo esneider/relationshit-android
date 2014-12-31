@@ -11,4 +11,12 @@
     <string name="title_activity_contact_detail">ContactDetail</string>
     <string name="hello_world">Hello world!</string>
 
+    <string name="you">You</string>
+    <string name="vs">vs</string>
+    <string name="total_messages">Total messages</string>
+    <string name="message_length">Average message length</string>
+    <string name="activity">Past activity</string>
+    <string name="messages">messages</string>
+    <string name="length">length</string>
+
 </resources>

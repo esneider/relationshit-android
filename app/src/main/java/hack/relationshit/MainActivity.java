@@ -113,8 +113,9 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent i = new Intent(MainActivity.this, ContactDetail.class);
+                String name = parent.getItemAtPosition(position).toString();
+                i.putExtra("contactName", name);
                 startActivity(i);
-//                finish();
             }
 
         });
