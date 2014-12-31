@@ -25,7 +25,7 @@
         android:textSize="16dp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="127dp" />
+        android:layout_marginTop="107dp" />
 
     <ImageView
         android:layout_width="100dp"
@@ -38,12 +38,12 @@
         android:onClick="next"/>
 
     <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:id="@+id/beloved_pic"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"
-        android:layout_marginTop="220dp"/>
+        android:layout_marginTop="200dp"/>
 
     <ImageView
         android:layout_width="60dp"
@@ -53,7 +53,7 @@
         android:layout_centerHorizontal="true"
         android:onClick="erase"
         android:visibility="invisible"
-        android:layout_marginTop="340dp"/>
+        android:layout_marginTop="360dp"/>
 
     <AutoCompleteTextView
         android:layout_width="fill_parent"
