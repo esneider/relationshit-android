@@ -8,6 +8,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
@@ -58,7 +59,7 @@ public class ServerDAO {
 
         final ShitApplication shit = (ShitApplication) activity.getApplicationContext();
 
-        RestClient.get("topLists", null, new JsonHttpResponseHandler() {
+        RestClient.get("topLists?IMEI=" + IMEI, null, new JsonHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray array) {
