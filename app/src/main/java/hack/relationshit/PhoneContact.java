@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -39,6 +40,8 @@ public class PhoneContact {
             PhoneContact phoneContact = blankUser();
             phoneContact.number = number;
             phoneContact.name = number;
+            NUMBERS_TO_CONTACTS.put(number, phoneContact);
+            NAMES_TO_CONTACTS.put(number, phoneContact);
             return phoneContact;
         }
     }
@@ -58,9 +61,9 @@ public class PhoneContact {
 
     private static PhoneContact blankUser() {
         PhoneContact phoneContact = new PhoneContact();
-        phoneContact.score = new Random().nextInt(100);
-        phoneContact.sentTo = new Random().nextInt(500);
-        phoneContact.receivedFrom = new Random().nextInt(500);
+        phoneContact.score = 0;
+        phoneContact.sentTo = 0;
+        phoneContact.receivedFrom = 0;
         return phoneContact;
     }
 
@@ -95,26 +98,28 @@ public class PhoneContact {
                     phoneContact.receivedFrom = 0;
                     phoneContact.sentTo = 0;
 
-                    for(Message message: SMSes.forNumber(context, number)) {
-                        if(message.getDirection().equals("receive")) {
-                            phoneContact.receivedFrom++;
-                        } else if(message.getDirection().equals("send")) {
-                            phoneContact.sentTo++;
-                        }
-                    }
-
-                    phoneContact.score = phoneContact.receivedFrom + phoneContact.sentTo;
-
-                    if(phoneContact.score > 0) {
-                        NAMES_TO_CONTACTS.put(name, phoneContact);
-                        if (phoneContact.getNumber() != null) {
-                            NUMBERS_TO_CONTACTS.put(phoneContact.getNumber(), phoneContact);
-                        }
+                    NAMES_TO_CONTACTS.put(name, phoneContact);
+                    if (phoneContact.getNumber() != null) {
+                        NUMBERS_TO_CONTACTS.put(phoneContact.getNumber(), phoneContact);
                     }
 
                 } while (cursor.moveToNext());
             }
             cursor.close();
+
+            populateMessageNumbers(context);
+        }
+    }
+
+    private static void populateMessageNumbers(Context context) {
+        for (Message message : SMSes.getMessages(context)) {
+            PhoneContact phoneContact = byNumber(context, message.getPhoneNumber());
+            phoneContact.score++;
+            if(message.getDirection().equals("send")) {
+                phoneContact.sentTo++;
+            } else if(message.getDirection().equals("receive")) {
+                phoneContact.receivedFrom++;
+            }
         }
     }
 
@@ -127,7 +132,7 @@ public class PhoneContact {
             {
                 String number = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                 pCur.close();
-                return number;
+                return CustomPhoneNumberUtils.normalizeNumber(number);
             }
         }
 
