@@ -17,7 +17,7 @@ import android.widget.TextView;
 import hack.relationshit.utils.ImageHelper;
 
 
-public class ContactDetail extends FragmentActivity {
+public class ContactDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

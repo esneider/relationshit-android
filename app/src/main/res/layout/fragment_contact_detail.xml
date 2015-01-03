@@ -11,7 +11,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context="hack.relationshit.ContactDetail$PlaceholderFragment">
+        tools:context="hack.relationshit.ContactDetailActivity$PlaceholderFragment">
 
         <LinearLayout
             android:layout_width="wrap_content"

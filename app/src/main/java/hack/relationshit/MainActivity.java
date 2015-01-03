@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
+
 import hack.relationshit.utils.ImageHelper;
 
 import static java.util.Arrays.asList;
@@ -112,7 +112,7 @@ public class MainActivity extends FragmentActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent i = new Intent(MainActivity.this, ContactDetail.class);
+                Intent i = new Intent(MainActivity.this, ContactDetailActivity.class);
                 String name = parent.getItemAtPosition(position).toString();
                 i.putExtra("contactName", name);
                 startActivity(i);
