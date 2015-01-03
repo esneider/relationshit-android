@@ -1,4 +1,4 @@
-package hack.relationshit;
+package hack.relationshit.utils;
 
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;

@@ -36,17 +36,4 @@ public class SMSes {
 
         return smses.toArray(new Message[smses.size()]);
     }
-
-    public static List<Message> forNumber(Context context, String number) {
-        populateMessages(context);
-        ArrayList<Message> messages = new ArrayList<>();
-
-        for(Message message : smses) {
-            if(message.getPhoneNumber() != null && message.getPhoneNumber().equals(number)) {
-                messages.add(message);
-            }
-        }
-
-        return messages;
-    }
 }

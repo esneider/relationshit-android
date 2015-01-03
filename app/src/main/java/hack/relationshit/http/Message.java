@@ -1,12 +1,8 @@
 package hack.relationshit.http;
 
 import android.database.Cursor;
-import android.telephony.PhoneNumberUtils;
-import android.telephony.TelephonyManager;
 
-import java.util.Date;
-
-import hack.relationshit.CustomPhoneNumberUtils;
+import hack.relationshit.utils.CustomPhoneNumberUtils;
 
 /**
  * Created by dario on 12/30/14.
@@ -24,7 +20,7 @@ public class Message {
         String type        = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
         String phoneNumber = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
 
-        this.phoneNumber = CustomPhoneNumberUtils.normalizeNumber(phoneNumber);
+        this.phoneNumber = phoneNumber;
         this.messageLength = message.length();
         this.timestamp = Long.valueOf(timestamp);
 
