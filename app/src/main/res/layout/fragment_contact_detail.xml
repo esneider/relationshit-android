@@ -176,8 +176,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/length_me"
                 android:layout_marginLeft="7dp"
-                android:layout_toRightOf="@+id/length_me"
-                android:text="107" />
+                android:layout_toRightOf="@+id/length_me" />
 
             <TextView
                 android:layout_width="wrap_content"

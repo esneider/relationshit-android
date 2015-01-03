@@ -50,22 +50,33 @@ public class ContactDetailActivity extends FragmentActivity {
 
             ((TextView)findViewById(R.id.messages_num_me)).setText(Integer.toString(contact.getSentTo()));
             ((TextView)findViewById(R.id.messages_num_you)).setText(Integer.toString(contact.getReceivedFrom()));
+            ((TextView)findViewById(R.id.length_num_me)).setText(Integer.toString(contact.averageSentLength()));
+            ((TextView)findViewById(R.id.length_num_you)).setText(Integer.toString(contact.averageReceivedLength()));
 
             int total = contact.getSentTo() + contact.getReceivedFrom();
 
             if(total != 0) {
-                double sentPercentage = (contact.getSentTo() * 100) / total;
-                double receivedPercentage = (contact.getReceivedFrom() * 100) / total;
+                int sentPercentage = (contact.getSentTo() * 100) / total;
+                int receivedPercentage = (contact.getReceivedFrom() * 100) / total;
+                int lengthMax = Math.max(contact.averageReceivedLength(), contact.averageSentLength());
+                int percentMax = Math.max(sentPercentage, receivedPercentage);
 
-                ViewGroup.LayoutParams layoutParams = findViewById(R.id.messages_me).getLayoutParams();
-                layoutParams.width = new Double(sentPercentage).intValue() * 6;
-                findViewById(R.id.messages_me).setLayoutParams(layoutParams);
-
-                layoutParams = findViewById(R.id.messages_you).getLayoutParams();
-                layoutParams.width = new Double(receivedPercentage).intValue() * 6;
-                findViewById(R.id.messages_you).setLayoutParams(layoutParams);
+                setHorizontalBar(normalize(sentPercentage, percentMax), R.id.messages_me);
+                setHorizontalBar(normalize(receivedPercentage, percentMax), R.id.messages_you);
+                setHorizontalBar(normalize(contact.averageSentLength(), lengthMax), R.id.length_me);
+                setHorizontalBar(normalize(contact.averageReceivedLength(), lengthMax), R.id.length_you);
             }
         }
+    }
+
+    private void setHorizontalBar(double value, int id) {
+        ViewGroup.LayoutParams layoutParams = findViewById(id).getLayoutParams();
+        layoutParams.width = new Double(value).intValue();
+        findViewById(id).setLayoutParams(layoutParams);
+    }
+
+    private int normalize(int num, int max) {
+        return (int)((400.0 / max) * num);
     }
 
     @Override

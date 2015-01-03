@@ -28,6 +28,8 @@ public class PhoneContact {
     private int score = 0;
     private int sentTo = 0;
     private int receivedFrom = 0;
+    private long charsSentTo = 0;
+    private long charsReceivedFrom = 0;
 
     private static PhoneContact byNumber(Context context, String number) {
         populateContactNumbers(context);
@@ -114,8 +116,10 @@ public class PhoneContact {
             phoneContact.score++;
             if(message.getDirection().equals("send")) {
                 phoneContact.sentTo++;
+                phoneContact.charsSentTo += message.getMessageLength();
             } else if(message.getDirection().equals("receive")) {
                 phoneContact.receivedFrom++;
+                phoneContact.charsReceivedFrom += message.getMessageLength();
             }
         }
     }
@@ -150,6 +154,14 @@ public class PhoneContact {
 
     public int getSentTo() {
         return sentTo;
+    }
+
+    public int averageSentLength() {
+        return (sentTo > 0) ? ((int) charsSentTo / sentTo) : 0;
+    }
+
+    public int averageReceivedLength() {
+        return (receivedFrom > 0) ? (int) charsReceivedFrom / receivedFrom : 0;
     }
 
     public int getReceivedFrom() {
